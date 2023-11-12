@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name="client")
-public class Client {
+@Table(name="angajat")
+public class Angajat {
     @Id
-    private Long idClient;
-    private String numeClient;
-    private String nrTelefon;
-    private String adresa;
-
+    private Long idAngajat;
+    private String numeAngajat;
+    private Long idTranzactie;
+    private Float comisionVanzare;
+    private Integer nrVanzari;
 }

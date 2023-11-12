@@ -1,11 +1,11 @@
 package com.example.TestProiectBackend.Service;
 
-import com.example.TestProiectBackend.Model.Masina;
+import com.example.TestProiectBackend.Model.Tranzactie;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Component
-public interface MasinaService {
-    Masina findFirstByIdMasina(Long id);
+public interface TranzactieService {
+    Tranzactie findFirstByIdTranzactie(Long id);
 
 }

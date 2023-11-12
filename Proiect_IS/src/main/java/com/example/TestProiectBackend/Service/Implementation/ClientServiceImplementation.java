@@ -1,10 +1,13 @@
 package com.example.TestProiectBackend.Service.Implementation;
 
+import com.example.TestProiectBackend.Model.Angajat;
 import com.example.TestProiectBackend.Model.Client;
 import com.example.TestProiectBackend.Repository.ClientRepository;
 import com.example.TestProiectBackend.Service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ClientServiceImplementation implements ClientService {
@@ -19,7 +22,14 @@ public class ClientServiceImplementation implements ClientService {
     public void Insert(Client client) {
         clientRepository.save(client);
     }
-  /*  public void Update(Client client) {
-        clientRepository.
-    }*/
+    public void Update(Client client) {
+        clientRepository.save(client);
+    }
+    public void Delete(Long id) {
+        clientRepository.deleteById(id);
+    }
+    public List<Client> getAllClienti() {
+        return (List<Client>) clientRepository.findAll();
+    }
+
 }

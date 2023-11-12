@@ -20,6 +20,6 @@ public class Masina {
     private Integer an;
     private Float motorizare;
     private Float pret;
-    private Long id_tranzactie;
+    private Long idTranzactie;
 
 }

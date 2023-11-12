@@ -73,20 +73,53 @@ public class ClientConsole implements ChatIF
         new BufferedReader(new InputStreamReader(System.in));
       String message;
 
-      while (true) 
-      {
+      while (true) {
         message = fromConsole.readLine();
-        client.handleMessageFromClientUI(message);
+
+        if (message.startsWith("#")) {
+          handleCommand(message);
+        } else {
+          client.handleMessageFromClientUI(message);
+        }
       }
-    } 
-    catch (Exception ex) 
+
+  } catch (Exception ex)
     {
       System.out.println
-        ("Unexpected error while reading from console!");
+              ("Unexpected error while reading from console!");
+    }}
+    private void handleCommand(String command) throws IOException {
+    String[] tokens = command.substring(1).split("\\s+");
+
+    // Process different commands
+    switch (tokens[0]) {
+      case "quit":
+        client.quit();
+        System.exit(0);break;
+
+
+      case "logoff":
+        client.closeConnection();
+        System.out.println("Logged off from the server.");
+        break;
+        case "sethost":
+        if (client.isConnected()) {
+          System.out.println("Error: Cannot set host while logged in. Log off first.");
+        } else if (tokens.length >= 2) {
+          String newHost = tokens[1];
+          client.setHost(newHost);
+          System.out.println("Host set to " + newHost);
+        } else {
+          System.out.println("Error: Missing host argument. Usage: #sethost <host>");
+        }
+        break;
+      default:
+        System.out.println("Error: Unknown command - " + command);
+        break;
     }
   }
 
-  /**
+    /**
    * This method overrides the method in the ChatIF interface.  It
    * displays a message onto the screen.
    *
@@ -120,7 +153,7 @@ public class ClientConsole implements ChatIF
     }
 
     ClientConsole chat= new ClientConsole(host, DEFAULT_PORT);
-    chat.accept();  //Wait for console data
+    chat.accept();
   }
 }
 //End of ConsoleChat class
