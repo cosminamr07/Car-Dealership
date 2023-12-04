@@ -12,6 +12,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import backgroundImg from '../images/background.jpg'; 
+
 
 function Copyright(props) {
   return (
@@ -31,6 +35,10 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const [email,setEmail] = React.useState("");//valoarea default
+  const [password,setPassword] = React.useState("");
+
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -38,12 +46,37 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     });
-  };
+    axios.get("http://localhost:8080/GetEmail",data.get('email'),{headers:{"content-type":"application/json"}
 
+  }) .then((response) =>{
+      console.log(response)
+      if(response.data.id>=1)
+        navigate("../Home")
+    })
+  };
+  const onEmailChanged  =(event)=>{
+   setEmail(event.target.value);
+
+  }
+  const onPasswordChanged  =(event)=>{
+    setPassword(event.target.value);
+ 
+   }
   return (
     <ThemeProvider theme={defaultTheme}>
+       <Box
+        sx={{
+          backgroundImage: `url(${backgroundImg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          minHeight: '100vh', // Ensure the container covers the entire viewport height
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      ></Box>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
+        <CssBaseline/>
         <Box
           sx={{
             marginTop: 8,
@@ -68,7 +101,8 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
-            />
+              onChange={onEmailChanged}
+/>
             <TextField
               margin="normal"
               required
@@ -78,6 +112,8 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={onPasswordChanged}
+
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -88,6 +124,7 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+             // onClick={}
             >
               Sign In
             </Button>

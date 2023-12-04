@@ -23,7 +23,6 @@ public class ClientController {
     @PostMapping("/Insert")
     public void insert(@RequestBody Client client)
     {
-
         clientServiceImplementation.Insert(client);
     }
     @PostMapping("/Update")
@@ -38,5 +37,6 @@ public class ClientController {
         Client client = clientServiceImplementation.findFirstByIdClient(id);
         return ResponseEntity.status(HttpStatus.OK).body(client);
     }
+
 
 }
