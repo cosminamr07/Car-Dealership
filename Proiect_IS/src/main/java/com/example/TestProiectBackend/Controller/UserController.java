@@ -29,17 +29,19 @@ public class UserController {
     public void update(@RequestBody User user) {
         userServiceImplementation.update(user);
     }
-    @PostMapping("/GetEmail")
-    public ResponseEntity<String> getEmail(@RequestBody Long id) {
-        String email = userServiceImplementation.getEmail(id);
-        return ResponseEntity.status(HttpStatus.OK).body(email);
+    @GetMapping("/FindByEmail")
+    public User findByEmail(@RequestBody String email) {
+        User user  = userServiceImplementation.findByEmail(email);
+        return user;
+        //return ResponseEntity.status(HttpStatus.OK).body(email);
     }
 
 
-    @PostMapping("/GetById")
-    public ResponseEntity<User> readById(@RequestBody Long id) {
-        User user = userServiceImplementation.findFirstByIdUser(id);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+    @GetMapping("/GetById")
+    public String readById(@RequestBody Long id) {
+        User user = userServiceImplementation.findByIdUser(id);
+        return user.getFullName();
+        //return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 }
 // Proiectul are in vedere o aplcatie unde clientul se poate inregistra, primeste acces si poate cauta masini in functie de mai multe criterii(an,marca,buget etc)

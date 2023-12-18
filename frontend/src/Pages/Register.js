@@ -27,6 +27,14 @@ export default function Register() {
   const navigate = useNavigate();
   
   const handleSubmit = (event) => {
+    if (!fullName || !email || !password) {
+      alert('Te rugăm să completezi toate câmpurile.');
+    }
+    if(password.length<8){
+      alert('Parola trebuie sa continua minim 5 caractere');
+      //return;
+    }
+    
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
@@ -34,13 +42,30 @@ export default function Register() {
       email: data.get('email'),
       password: data.get('password'),
     });
-    axios.post("http://localhost:8080/User/Insert",data.post(''),{headers:{"content-type":"application/json"}
+  //  axios.post("http://localhost:8080/User/Insert",data.post(''),{headers:{"content-type":"application/json"}
+    axios.post('http://localhost:8080/User/Insert', {
+      email: email,
+      password: password,
+      fullName: fullName
 
-  }) .then((response) =>{
-      console.log(response)
-      if(response.data.id>=1)
-        navigate("../Home") 
+  },{headers:{"content-type":"application/json"},})
+    .then(function (response) {
+      console.log(response);
+      navigate('/Platform');
+
+      // if(response.data.id>=1){
+      //   console.log("done");
+
+      // }
     })
+    .catch(function (error) {
+      console.log(error);
+    });
+  // }) .then((response) =>{
+  //     console.log(response)
+  //     if(response.data.id>=1)
+  //       navigate("../Home") 
+  //   })
   };
   const onFullNameChanged = (event) => {
     setFullName(event.target.value);
@@ -85,7 +110,7 @@ export default function Register() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Create Account
+              Creeaza un cont
             </Typography>
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -93,7 +118,7 @@ export default function Register() {
                 required
                 fullWidth
                 id="fullName"
-                label="Full name"
+                label="Nume complet"
                 name="fullName"
                 autoComplete="Full name"
                 autoFocus
@@ -105,7 +130,7 @@ export default function Register() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Adresa de email"
                 name="email"
                 autoComplete="email"
                 autoFocus
@@ -116,7 +141,7 @@ export default function Register() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Parola"
                 type="password"
                 id="password"
                 autoComplete="new-password"
@@ -124,7 +149,7 @@ export default function Register() {
               />
               <FormControlLabel
                 control={<Checkbox value="agreement" color="primary" />}
-                label="I agree to the terms and conditions"
+                label="Sunt de acord cu termenii si conditiile"
               />
               <Button
                 type="submit"
@@ -132,12 +157,12 @@ export default function Register() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Register
+                Inregistrare
               </Button>
               <Grid container>
                 <Grid item>
-                  <Link href="/register" variant="body2">
-                    Already have an account? Sign in
+                  <Link href="/Login" variant="body2">
+                    Ai deja un cont? Logheaza-te !
                   </Link>
                 </Grid>
               </Grid>

@@ -46,12 +46,21 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     });
-    axios.get("http://localhost:8080/GetEmail",data.get('email'),{headers:{"content-type":"application/json"}
-
-  }) .then((response) =>{
+    axios.get(
+      "http://localhost:8080/User/FindByEmail",
+      {
+        params: { email: email },
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+   .then((response) =>{
       console.log(response)
-      if(response.data.id>=1)
-        navigate("../Home")
+      const user = response.data;
+
+    if (user && user.id !== null && user.id !== undefined) {
+      // If a user with the provided email exists, navigate to the home page
+      navigate("../Platform");
+    }
     })
   };
   const onEmailChanged  =(event)=>{
@@ -89,7 +98,7 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Logare
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -115,10 +124,7 @@ export default function SignIn() {
               onChange={onPasswordChanged}
 
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Tine-ma minte"
-            />
+           
             <Button
               type="submit"
               fullWidth
@@ -126,7 +132,7 @@ export default function SignIn() {
               sx={{ mt: 3, mb: 2 }}
              // onClick={}
             >
-              Sign In
+              Logare
             </Button>
             <Grid container>
               <Grid item xs>
@@ -135,7 +141,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/Register" variant="body2">
                   {"Nu ai inca un cont?Creeaza unul!"}
                 </Link>
               </Grid>

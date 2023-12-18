@@ -12,8 +12,11 @@ import lombok.NoArgsConstructor;
 @Table(name="user")
 public class User {
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long idUser;
     private String email;
     private String password;
-
+    private String fullName;
+    public enum UserType{CLIENT,ANGAJAT,ADMIN};
+    private UserType  userType;
 }
