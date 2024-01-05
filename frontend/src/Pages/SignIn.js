@@ -30,39 +30,72 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
   const [email,setEmail] = React.useState("");//valoarea default
   const [password,setPassword] = React.useState("");
-
   const navigate = useNavigate();
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    axios.get(
-      "http://localhost:8080/User/FindByEmail",
-      {
-        params: { email: email },
-        headers: { "Content-Type": "application/json" },
-      }
-    )
-   .then((response) =>{
-      console.log(response)
-      const user = response.data;
 
-    if (user && user.id !== null && user.id !== undefined) {
-      // If a user with the provided email exists, navigate to the home page
-      navigate("../Platform");
+
+  const handleSubmit = (event) => {
+    if (!email || !password) {
+      alert('Te rugăm să completezi toate câmpurile.');
+      return;
     }
-    })
+  
+    event.preventDefault();
+  
+    // Using FormData to log the form data (optional)
+    // const data = new FormData(event.currentTarget);
+    // console.log({
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
+  
+    // Axios request to handle login
+//    axios.get("http://localhost:8080/User/FindByEmail", {
+//     params: { email: email },
+//   },
+//   {headers: { "content-Type": "application/json" },
+// })
+//   .then((response) => {
+//     console.log("Response data:", response.data);
+//     navigate('/Home');
+
+//     // Rest of your code
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//   });
+
+// Update the axios request in handleSubmit
+axios.get("http://localhost:8080/User/CheckLogin", {
+  params: {
+    email: email,
+    password: password,
+  },
+  headers: { "Content-Type": "application/json" },
+})
+.then((response) => {
+  console.log("Response data:", response.data);
+
+  // Check the response from the server
+  if (response.data) {
+    // Navigate to the Platform component and pass user data as state
+    navigate('/Platform', { state: { userData: response.data, email: email } });
+  } else {
+    // Handle unsuccessful login (show an error message)
+    alert('Invalid email or password');
+  }
+})
+.catch((error) => {
+  console.error("Request failed:", error);
+});
+
   };
+  
   const onEmailChanged  =(event)=>{
    setEmail(event.target.value);
 

@@ -51,7 +51,7 @@ export default function Register() {
   },{headers:{"content-type":"application/json"},})
     .then(function (response) {
       console.log(response);
-      navigate('/Platform');
+      navigate('/Home');
 
       // if(response.data.id>=1){
       //   console.log("done");
@@ -147,10 +147,7 @@ export default function Register() {
                 autoComplete="new-password"
                 onChange={onPasswordChanged}
               />
-              <FormControlLabel
-                control={<Checkbox value="agreement" color="primary" />}
-                label="Sunt de acord cu termenii si conditiile"
-              />
+             
               <Button
                 type="submit"
                 fullWidth

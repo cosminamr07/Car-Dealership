@@ -16,7 +16,9 @@ public class User {
     private Long idUser;
     private String email;
     private String password;
+    private String adresa;
+    private String nrTelefon;
     private String fullName;
-    public enum UserType{CLIENT,ANGAJAT,ADMIN};
-    private UserType  userType;
+    //public enum UserType{CLIENT,ANGAJAT,ADMIN};
+    private String  userType;
 }

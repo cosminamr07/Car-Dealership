@@ -30,11 +30,28 @@ public class UserController {
         userServiceImplementation.update(user);
     }
     @GetMapping("/FindByEmail")
-    public User findByEmail(@RequestBody String email) {
-        User user  = userServiceImplementation.findByEmail(email);
+    public User findByEmail(@RequestParam String email) {
+        User user = userServiceImplementation.findByEmail(email);
         return user;
         //return ResponseEntity.status(HttpStatus.OK).body(email);
     }
+    @GetMapping("/CheckLogin")
+    public ResponseEntity<String> checkLogin(
+            @RequestParam String email,
+            @RequestParam String password
+    ) {
+        User user = userServiceImplementation.findByEmail(email);
+
+        if (user != null && user.getPassword().equals(password)) {
+            // Passwords match
+            return ResponseEntity.ok("Login successful");
+        } else {
+            // Invalid email or password
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        }
+    }
+
+
 
 
     @GetMapping("/GetById")

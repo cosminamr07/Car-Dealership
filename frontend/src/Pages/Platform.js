@@ -1,136 +1,114 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
+import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import backgroundImg from '../images/dodge.jpg';
-const defaultTheme = createTheme();
+import '../Style/Platform.css'; 
+import { useLocation } from 'react-router-dom';
 
-export default function Platform() {
 
-  const [userData, setUserData] = React.useState({
-    fullName: '',
-    email: '',
-    password: '',
-    adresa: '',
-    telefon: '',
-  });
+export default function Platform(props) {
+  const [searchText, setSearchText] = useState('');
+  const [year, setYear] = useState('');
+  const location = useLocation();
 
+  const [cylinderCapacity, setCylinderCapacity] = useState('');
+  const [price, setPrice] = useState('');
   const navigate = useNavigate();
+  const emailFromLogin = (location.state && location.state.email) ? location.state.email : '';
+  const [userDetails, setUserDetails] = React.useState({});
+  //console.log("Platform"+location.state.adresa);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Perform any necessary actions on form submission
-    // For example, you can update user information here
+
+  useEffect(() => {
+  
+    axios
+      .get("http://localhost:8080/User/FindByEmail", {
+        params: { email: emailFromLogin},
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => {
+        setUserDetails(response.data);
+      })
+      .catch((error) => {
+        console.log("API error:", error);
+      });
+  }, [userDetails]);
+  // console.log(userDetails.adresa);
+  const handleViewDetails = () => {
+    console.log("aici"+userDetails.email);
+    navigate('/ViewDetails', { state: { userDetails,email:userDetails.email} });
   };
-    // const onFullNameChanged = (event) => {
-    //   setFullName(event.target.value);
-    // };
-  
-    // const onEmailChanged = (event) => {
-    //   setEmail(event.target.value);
-    // };
-  
-    // const onPasswordChanged = (event) => {
-    //   setPassword(event.target.value);
-    // };
-  
 
-    return( 
-<ThemeProvider theme={defaultTheme}>
-        <Box
-        sx={{
-          // backgroundImage: `url(${backgroundImg})`,
-          backgroundColor: `rgb(255, 153, 51)`, // Set background color to red using RGB values
-        
-          backdropFilter: 'blur(10px)',
+  const handleSearch = () => {
+    // Adaugă logica pentru căutare
+    console.log('Searching...');
+  };
 
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
+  const handleLogout = () => {
+    // Adaugă logica pentru deconectare
+    navigate("/Login");
+  };
+
+  return (
+    <div className="platform-container">
+      <TextField
+        label="Caută mașini"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+      />
+
+      <div className="filter-container">
+        <TextField
+          label="An"
+          type="number"
+          variant="outlined"
+          margin="normal"
+          value={year}
+          onChange={(e) => setYear(e.target.value)}
+        />
+        <TextField
+          label="Capacitate cilindrică"
+          type="number"
+          variant="outlined"
+          margin="normal"
+          value={cylinderCapacity}
+          onChange={(e) => setCylinderCapacity(e.target.value)}
+        />
+        <TextField
+          label="Preț"
+          type="number"
+          variant="outlined"
+          margin="normal"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+        />
+      </div>
+
+      <Button variant="contained" color="primary" onClick={handleSearch}>
+        Caută
+      </Button>
+
+      <div className='buttons'>
+        <Button
+          fullWidth
+          variant="contained"
+          onClick={handleViewDetails}
         >
-        <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            backgroundColor: `rgb(255, 255, 255)`, // Set background color to red using RGB values
-            borderRadius: '8px', // Optional: add border-radius for a rounded look
-            padding: '20px', // Optional: add padding for spacing
-          }}
+          Vizualizare detalii personale
+        </Button>
+
+        <Button
+          fullWidth
+          variant="contained"
+          onClick={handleLogout}
         >
-         
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Vizualizare date personale
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-              {Object.entries(userData).map(([field, value]) => (
-                <TextField
-                  key={field}
-                  margin="normal"
-                  required
-                  fullWidth
-                  id={field}
-                  label={field.charAt(0).toUpperCase() + field.slice(1)}
-                  name={field}
-                  value={value}
-                  autoComplete={field}
-                  autoFocus
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-              ))}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                  backgroundColor: `rgb(255, 153, 51)`,
-                }}
-              >
-                Editare
-              </Button>
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                  backgroundColor: `rgb(255, 153, 51)`,
-                }}
-              >
-                Button
-              </Button>
-            </Box>
-          </Box>
-      </Container>
-      </Box>
-      </ThemeProvider>
-    );
-
-}
+          Deconectare
+        </Button>
+      </div>
+    </div>
+  );
+};
