@@ -14,7 +14,7 @@ public class ClientServiceImplementation implements ClientService {
     @Autowired
     private ClientRepository clientRepository;
     @Override
-    public Client findFirstByIdClient(Long id)
+    public Client getClientByUserId(Long id)
     {
         return clientRepository.findFirstByIdClient(id);
     }
@@ -25,8 +25,8 @@ public class ClientServiceImplementation implements ClientService {
     public void Update(Client client) {
         clientRepository.save(client);
     }
-    public void Delete(Long id) {
-        clientRepository.deleteById(id);
+    public void Delete(Client client) {
+        clientRepository.delete(client);
     }
     public List<Client> getAllClienti() {
         return (List<Client>) clientRepository.findAll();

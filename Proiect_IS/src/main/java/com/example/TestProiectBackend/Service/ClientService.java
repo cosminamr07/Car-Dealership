@@ -6,6 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface ClientService {
-    Client findFirstByIdClient(Long id);
+    Client getClientByUserId(Long id);
 
 }

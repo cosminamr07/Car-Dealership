@@ -23,16 +23,28 @@ export default function Register() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [fullName, setFullName] = React.useState('');
+  const [phoneNumber, setPhoneNumber] = React.useState('');
+  const [address, setAddress] = React.useState('');
+
+
 
   const navigate = useNavigate();
   
   const handleSubmit = (event) => {
     if (!fullName || !email || !password) {
       alert('Te rugăm să completezi toate câmpurile.');
+      return;
     }
     if(password.length<8){
       alert('Parola trebuie sa continua minim 5 caractere');
-      //return;
+      return;
+
+    }
+    if(phoneNumber.length!=10)
+    {
+      alert('Numar de telefon incorect');
+      return;
+
     }
     
     event.preventDefault();
@@ -46,12 +58,15 @@ export default function Register() {
     axios.post('http://localhost:8080/User/Insert', {
       email: email,
       password: password,
-      fullName: fullName
+      fullName: fullName,
+      nrTelefon:phoneNumber,
+      adresa:address,
+      userType:"client"
 
   },{headers:{"content-type":"application/json"},})
     .then(function (response) {
       console.log(response);
-      navigate('/Home');
+      navigate('/Login');
 
       // if(response.data.id>=1){
       //   console.log("done");
@@ -78,6 +93,13 @@ export default function Register() {
   const onPasswordChanged = (event) => {
     setPassword(event.target.value);
   };
+  const onPhoneNumberChanged = (event) => {
+    setPhoneNumber(event.target.value);
+  };
+  const onAddressChanged = (event) => {
+    setAddress(event.target.value);
+  };
+
 
 
   return (
@@ -147,6 +169,27 @@ export default function Register() {
                 autoComplete="new-password"
                 onChange={onPasswordChanged}
               />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="Numar telefon"
+                label="Numar telefon"
+                id="Numar telefon"
+                autoComplete="Numar telefon"
+                onChange={onPhoneNumberChanged}
+              />
+              <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="Adresa"
+              label="Adresa"
+              id="Adresa"
+              autoComplete="Adresa"
+              onChange={onAddressChanged}
+            />
+
              
               <Button
                 type="submit"

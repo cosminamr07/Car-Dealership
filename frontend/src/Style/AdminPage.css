@@ -1,0 +1,75 @@
+
+body {
+  font-family: 'Noto Sans Cypro Minoan', sans-serif;}
+
+.admin-container {
+  max-width: 1500px;
+  padding: 20px;
+}
+
+h1 {
+  color: #ffffff;
+  margin-left: 30px;
+}
+
+.new-user-form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.new-user-form TextField {
+  margin-bottom: 10px;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: wheat;
+}
+
+.user-table th, .user-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.user-table th {
+  background-color: #f2f2f2;
+}
+
+.user-actions Button {
+  margin-right: 5px;
+}
+.car-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: wheat;
+
+}
+
+.car-table th, .car-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.car-table th {
+  background-color: #f2f2f2;
+}
+
+.car-actions button {
+  margin-right: 5px;
+}
+
+.button-primary {
+  background-color: #4caf50;
+  color: white;
+}
+
+.button-secondary {
+  background-color: #f44336;
+  color: white;
+}

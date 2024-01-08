@@ -3,12 +3,14 @@ import  SignIn from "../Pages/SignIn";
 import  Register from "../Pages/Register";
 import  ViewDetails from "../Pages/ViewDetails";
 import Platform from "../Pages/Platform";
-
+import AdminPage from "../Pages/AdminPage";
+import Transaction from "../Pages/Transaction";
+import Success from "../Pages/Success"
 
 const routes: RouteObject[] = [
     {
         path: "/",
-        element: <div>First Page</div>
+        element: <SignIn />
     },
     {
         path: "/Home",
@@ -29,8 +31,20 @@ const routes: RouteObject[] = [
     {
         path: "/Platform",
         element: <Platform/>
-    }
-
+    },
+    {
+        path: "/AdminPage",
+        element: <AdminPage/>
+    },
+    {
+        path: "/Transaction",
+        element: <Transaction/>
+    },
+    {
+        path: "/Success",
+        element: <Success/>
+    },
+  
 
 ];
 

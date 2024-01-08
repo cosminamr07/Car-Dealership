@@ -10,6 +10,7 @@
   import axios from 'axios';
   import { useLocation } from 'react-router-dom';
   import { useNavigate } from 'react-router-dom';
+  import backgroundImg from '../images/Capture.JPG'; 
 
 
   const defaultTheme = createTheme();
@@ -53,6 +54,17 @@
 
     return (
       <ThemeProvider theme={defaultTheme}>
+
+      <Box
+      sx={{
+        backgroundImage: `url(${backgroundImg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+      >
         <Container component="main" maxWidth="xs">
           <Box
             sx={{
@@ -134,6 +146,8 @@
             </Box>
           </Box>
         </Container>
+        </Box>
+
       </ThemeProvider>
     );
   }

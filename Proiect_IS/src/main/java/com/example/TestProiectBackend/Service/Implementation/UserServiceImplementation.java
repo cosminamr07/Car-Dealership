@@ -15,7 +15,7 @@ public class UserServiceImplementation implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User findByIdUser(Long id) {
+    public User findUserById(Long id) {
         return userRepository.findByIdUser(id);
     }
 
@@ -27,8 +27,8 @@ public class UserServiceImplementation implements UserService {
         userRepository.save(user);
     }
 
-    public void delete(Long id) {
-        userRepository.deleteById(id);
+    public void delete(User user) {
+        userRepository.delete(user);
     }
 
     public User findByEmail(String email) {
@@ -38,4 +38,5 @@ public class UserServiceImplementation implements UserService {
     public List<User> getAllUsers() {
         return (List<User>) userRepository.findAll();
     }
+
 }

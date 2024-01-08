@@ -31,10 +31,15 @@ public class ClientController {
 
         clientServiceImplementation.Insert(client);
     }
+    @PostMapping("/Delete")
+    public void delete(@RequestBody Client client)
+    {
+        clientServiceImplementation.Delete(client);
+    }
     @PostMapping("/GetById")
     public ResponseEntity ReadByID(@RequestBody Long id)
     {
-        Client client = clientServiceImplementation.findFirstByIdClient(id);
+        Client client = clientServiceImplementation.getClientByUserId(id);
         return ResponseEntity.status(HttpStatus.OK).body(client);
     }
 

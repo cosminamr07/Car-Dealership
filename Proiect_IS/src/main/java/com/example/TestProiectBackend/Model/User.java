@@ -19,6 +19,35 @@ public class User {
     private String adresa;
     private String nrTelefon;
     private String fullName;
-    //public enum UserType{CLIENT,ANGAJAT,ADMIN};
-    private String  userType;
+    private String userType;
+
+//    @OneToOne(mappedBy = "user")
+//    private UserLink userLink;
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getAdresa() {
+        return adresa;
+    }
+
+    public String getNrTelefon() {
+        return nrTelefon;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
 }

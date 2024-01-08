@@ -71,31 +71,36 @@ export default function SignIn() {
 //   });
 
 // Update the axios request in handleSubmit
-axios.get("http://localhost:8080/User/CheckLogin", {
-  params: {
-    email: email,
-    password: password,
-  },
-  headers: { "Content-Type": "application/json" },
-})
-.then((response) => {
-  console.log("Response data:", response.data);
+  axios
+  .get("http://localhost:8080/User/CheckLogin", {
+    params: {
+      email: email,
+      password: password,
+    },
+    headers: { "Content-Type": "application/json" },
+  })
+  .then((response) => {
+    console.log("Response data:", response.data);
 
-  // Check the response from the server
-  if (response.data) {
-    // Navigate to the Platform component and pass user data as state
-    navigate('/Platform', { state: { userData: response.data, email: email } });
-  } else {
-    // Handle unsuccessful login (show an error message)
-    alert('Invalid email or password');
-  }
-})
-.catch((error) => {
-  console.error("Request failed:", error);
-});
+    // Check the response from the server
+    if (response.data.startsWith("Redirect:")) {
+      const redirectPath = response.data.replace("Redirect:", "");
+      // Navigate to the redirected page
+      navigate(redirectPath, { state: { userData: response.data, email: email } });
+    } else {
+      // Handle other cases
+      alert('Invalid email or password');
+    }
+  })
+  .catch((error) => {
+    alert('Email sau parola gresita');
 
-  };
-  
+    console.log(error);
+  });
+
+
+    };
+    
   const onEmailChanged  =(event)=>{
    setEmail(event.target.value);
 
@@ -107,25 +112,27 @@ axios.get("http://localhost:8080/User/CheckLogin", {
   return (
     <ThemeProvider theme={defaultTheme}>
        <Box
-        sx={{
-          backgroundImage: `url(${backgroundImg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          minHeight: '100vh', // Ensure the container covers the entire viewport height
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      ></Box>
+      sx={{
+        backgroundImage: `url(${backgroundImg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+      >
       <Container component="main" maxWidth="xs">
         <CssBaseline/>
         <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
+            sx={{
+              marginTop: 18,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              backgroundColor: 'white', // Set background color to white
+              borderRadius: '8px', // Optional: add border-radius for a rounded look
+              padding: '20px', // Optional: add padding for spacing
+            }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
@@ -168,21 +175,17 @@ axios.get("http://localhost:8080/User/CheckLogin", {
               Logare
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Ai uitat parola?
-                </Link>
+                <Grid item>
+                  <Link href="/Register" variant="body2">
+                    Nu ai inca un cont? Creeaza unul!
+                  </Link>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Link href="/Register" variant="body2">
-                  {"Nu ai inca un cont?Creeaza unul!"}
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
+      </Box>
     </ThemeProvider>
   );
 }

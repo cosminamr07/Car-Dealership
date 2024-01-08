@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Random;
+
 @RestController
 @CrossOrigin
 @RequestMapping("Angajat")
@@ -45,8 +48,20 @@ public class AngajatController {
     @PostMapping("/GetById")
     public ResponseEntity ReadByID(@RequestBody Long id)
     {
-        Angajat angajat = angajatServiceImplementation.findFirstByIdAngajat(id);
+        Angajat angajat = angajatServiceImplementation.getAngajatByUserId(id);
         return ResponseEntity.status(HttpStatus.OK).body(angajat);
+    }
+
+    @GetMapping("/Random")
+    public Angajat getAngajatAleatoriu() {
+        List<Angajat> angajati = angajatServiceImplementation.getAllAngajati();
+        if (!angajati.isEmpty()) {
+            int indexAleatoriu = new Random().nextInt(angajati.size());
+
+            return angajati.get(indexAleatoriu);
+        }
+
+        return null;
     }
 
 }

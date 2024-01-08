@@ -3,6 +3,7 @@ package com.example.TestProiectBackend.Service;
 import com.example.TestProiectBackend.Model.Angajat;
 
 public interface AngajatService {
-    Angajat findFirstByIdAngajat(Long id);
+    Angajat getAngajatByUserId(Long id);
 
+    Angajat getAngajatAleatoriu();
 }

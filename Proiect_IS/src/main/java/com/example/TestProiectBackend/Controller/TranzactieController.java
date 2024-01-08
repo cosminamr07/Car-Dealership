@@ -1,7 +1,12 @@
 package com.example.TestProiectBackend.Controller;
 
+import com.example.TestProiectBackend.Model.Angajat;
+import com.example.TestProiectBackend.Model.Masina;
 import com.example.TestProiectBackend.Model.Tranzactie;
+import com.example.TestProiectBackend.Service.Implementation.AngajatServiceImplementation;
+import com.example.TestProiectBackend.Service.Implementation.MasinaServiceImplementation;
 import com.example.TestProiectBackend.Service.Implementation.TranzactieServiceImplementation;
+import com.example.TestProiectBackend.Service.MasinaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +21,12 @@ public class TranzactieController {
 
     @Autowired
     private TranzactieServiceImplementation tranzactieServiceImplementation;
+    @Autowired
+    private AngajatServiceImplementation angajatServiceImplementation; // Adaugă serviciul pentru a accesa informații despre angajați
 
+
+    @Autowired
+    private MasinaServiceImplementation masinaServiceImplementation;
     @GetMapping("/ReadData")
     public String getData() {
         return "mesajTranzactie";
@@ -24,8 +34,21 @@ public class TranzactieController {
 
     @PostMapping("/Insert")
     public void insert(@RequestBody Tranzactie tranzactie) {
-        tranzactieServiceImplementation.insert(tranzactie);
+        Angajat angajatAleatoriu = angajatServiceImplementation.getAngajatAleatoriu();
+
+        Long idMasina = tranzactie.getIdMasina();
+        Masina masina = masinaServiceImplementation.findMasinaById(idMasina);
+
+        if (masina != null) {
+            masina.setVandut(Masina.StareVanzare.DA);
+            masinaServiceImplementation.update(masina);
+
+            tranzactieServiceImplementation.insert(tranzactie);
+        } else {
+            System.out.println("Mașina nu există.");
+        }
     }
+
 
     @PostMapping("/Update")
     public void update(@RequestBody Tranzactie tranzactie) {

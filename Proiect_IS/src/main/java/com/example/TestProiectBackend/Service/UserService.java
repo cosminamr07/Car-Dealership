@@ -6,6 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface UserService {
-    User findByIdUser(Long id);
+    User findUserById(Long id);
 
 }
